@@ -1,31 +1,41 @@
 package com.hotelreservationapp.service;
 
 import com.hotelreservationapp.model.Customer;
-import java.util.Collection;
-import java.util.HashMap;
+
+import java.util.*;
 
 public class CustomerService {
     private static CustomerService INSTANCE;
-    private HashMap<String, Customer> customers;
+    private Set<Customer> customers;
 
     private CustomerService() {}
 
     public static CustomerService getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new CustomerService();
-            INSTANCE.customers = new HashMap<>();
+            INSTANCE.customers = new HashSet<>();
         }
         return INSTANCE;
     }
 
     public void addCustomer(String email, String firstName, String lastName) {
-        customers.put(email, new Customer(email, firstName, lastName));
+        Customer newCustomer = new Customer(email, firstName, lastName);
+        if (customers.contains(newCustomer)) {
+            System.out.println("Error: Email " + email + " already added.");
+            return;
+        }
+        customers.add(newCustomer);
     }
     public Customer getCustomer(String customerEmail) {
-        return customers.get(customerEmail);
+        for (Customer customer : customers) {
+            if (Objects.equals(customer.getEmail(), customerEmail))
+                return customer;
+        }
+        return null;
     }
     public Collection<Customer> getAllCustomers() {
-        return (Collection<Customer>) customers;
+        return customers;
     }
+
 }
 

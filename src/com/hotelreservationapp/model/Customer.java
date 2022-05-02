@@ -1,36 +1,37 @@
 package com.hotelreservationapp.model;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Customer {
-    private String firstName;
-    private String lastName;
-    private String email;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
 
 
-    public Customer(String firstName, String lastName, String email) {
+    public Customer(String email, String firstName, String lastName) {
+        isValidEmail(email);
         this.firstName = firstName;
         this.lastName = lastName;
-        if (isValidEmail(email)) {
-            this.email = email;
-        } else {
-            throw new IllegalArgumentException("Incorrect Email Format");
+        this.email = email;
+    }
+
+    public void isValidEmail(String email) {
+        Pattern pattern = Pattern.compile("^(.+)@(.+).(.+)$");
+        if (!pattern.matcher(email).matches()) {
+            throw new IllegalArgumentException("Error: Incorrect Email Format");
         }
     }
 
-    public boolean isValidEmail(String email) {
-        Pattern pattern = Pattern.compile("^(.+)@(.+).com");
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return firstName + " " + lastName;
     }
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "First Name: " + firstName + " Last Name: " + lastName + " Email: " + email;
     }
 }

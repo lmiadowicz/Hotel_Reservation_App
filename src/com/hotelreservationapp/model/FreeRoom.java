@@ -2,8 +2,8 @@ package com.hotelreservationapp.model;
 
 public class FreeRoom extends Room {
 
-    public FreeRoom() {
-        super(0.0);
+    public FreeRoom(String roomNumber, RoomType enumeration) {
+        super(roomNumber, 0.0, enumeration);
     }
 
     @Override
